@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: securebill_user
+      POSTGRES_PASSWORD: securebill_password
+      POSTGRES_DB: securebill_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Mount the schema to initialize it automatically on first startup
+      - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_data:
